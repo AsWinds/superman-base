@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysUserRole">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysUserRole">
+        <id column="ROLE_ID" property="roleId" jdbcType="BIGINT"/>
+        <id column="USER_ID" property="userId" jdbcType="BIGINT"/>
+        <result column="STATE" property="state" jdbcType="CHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="STATE_DATE" property="stateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ROLE_ID, USER_ID, STATE, CREATE_DATE, STATE_DATE
+    </sql>
+
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysUserRole">
+        insert into SYS_USER_ROLE (ROLE_ID, USER_ID, STATE,
+        CREATE_DATE, STATE_DATE)
+        values (#{roleId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{state,jdbcType=CHAR},
+        #{createDate,jdbcType=TIMESTAMP}, #{stateDate,jdbcType=TIMESTAMP})
+    </insert>
+
+
+    <update id="updateState" parameterType="com.codi.superman.base.domain.SysUserRole">
+        update SYS_USER_ROLE
+        set STATE = #{state,jdbcType=CHAR},
+        STATE_DATE = #{stateDate,jdbcType=TIMESTAMP}
+        where ROLE_ID = #{roleId,jdbcType=BIGINT}
+        and USER_ID = #{userId,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delUserRole" parameterType="com.codi.superman.base.domain.SysUserRole">
+        DELETE FROM SYS_USER_ROLE
+        WHERE ROLE_ID = #{roleId,jdbcType=BIGINT}
+        AND USER_ID = #{userId,jdbcType=BIGINT}
+    </delete>
+
+    <select id="queryUserRole" resultMap="BaseResultMap" parameterType="com.codi.superman.base.domain.SysUserRole">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_USER_ROLE
+        WHERE USER_ID = #{userId} AND STATE=#{state}
+    </select>
+
+    <select id="checkRoleExist" resultType="java.lang.Boolean" parameterType="java.lang.Long">
+        SELECT EXISTS (SELECT USER_ID, ROLE_ID FROM SYS_USER_ROLE WHERE ROLE_ID=#{roleId})
+    </select>
+
+    <select id="checkUserRoleExist" resultType="java.lang.Boolean" parameterType="java.util.Map">
+        SELECT EXISTS (SELECT USER_ID, ROLE_ID FROM SYS_USER_ROLE WHERE USER_ID=#{userId} AND ROLE_ID=#{roleId})
+    </select>
+
+</mapper>

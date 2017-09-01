@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysApp">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysApp">
+        <id column="APP_ID" property="appId" jdbcType="BIGINT"/>
+        <result column="APP_NAME" property="appName" jdbcType="VARCHAR"/>
+        <result column="APP_TYPE" property="appType" jdbcType="INTEGER"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+        <result column="STATE" property="state" jdbcType="CHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="APP_SECRET" property="appSecret" jdbcType="VARCHAR"/>
+        <result column="APP_CODE" property="appCode" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        APP_ID, APP_NAME, APP_TYPE, DESCRIPTION, STATE, CREATE_DATE, UPDATE_DATE, APP_SECRET, APP_CODE
+  </sql>
+    <select id="selectByAppId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_APP
+        where APP_ID = #{appId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAppIdByCode" resultType="java.lang.Long" parameterType="String">
+        SELECT
+        APP_ID
+        FROM SYS_APP
+        WHERE APP_CODE = #{appCode,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SYS_APP
+    where APP_ID = #{appId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysApp">
+    insert into SYS_APP (APP_ID, APP_NAME, APP_TYPE,
+      DESCRIPTION, STATE, CREATE_DATE,
+        UPDATE_DATE, APP_SECRET, APP_CODE)
+    values (#{appId,jdbcType=BIGINT}, #{appName,jdbcType=VARCHAR}, #{appType,jdbcType=INTEGER},
+      #{description,jdbcType=VARCHAR}, #{state,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP},
+        #{updateDate,jdbcType=TIMESTAMP}, #{appSecret,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysApp" useGeneratedKeys="true"
+            keyProperty="appId">
+        insert into SYS_APP
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                APP_ID,
+            </if>
+            <if test="appName != null">
+                APP_NAME,
+            </if>
+            <if test="appType != null">
+                APP_TYPE,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="appSecret != null">
+                APP_SECRET,
+            </if>
+            <if test="appCode != null">
+                APP_CODE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                #{appId,jdbcType=BIGINT},
+            </if>
+            <if test="appName != null">
+                #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appType != null">
+                #{appType,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=CHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appSecret != null">
+                #{appSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="appCode != null">
+                #{appCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateApp" parameterType="com.codi.superman.base.domain.SysApp">
+        update SYS_APP
+        <set>
+            <if test="appName != null">
+                APP_NAME = #{appName,jdbcType=VARCHAR},
+            </if>
+            <if test="appType != null">
+                APP_TYPE = #{appType,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=CHAR},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appType != null">
+                APP_SECRET = #{appSecret,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                APP_CODE = #{appCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where APP_ID = #{appId,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByAppId" parameterType="java.lang.Long">
+        DELETE FROM  SYS_APP WHERE APP_ID=#{appId}
+    </delete>
+
+    <select id="selectApps" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_APP ORDER BY APP_NAME
+    </select>
+</mapper>

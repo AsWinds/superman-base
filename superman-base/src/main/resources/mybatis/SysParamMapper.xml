@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysParam">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysParam">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="PARAM_CODE" property="paramCode" jdbcType="VARCHAR"/>
+        <result column="PARAM_VALUE" property="paramValue" jdbcType="VARCHAR"/>
+        <result column="PARAM_TEXT" property="paramText" jdbcType="VARCHAR"/>
+        <result column="PARAM_MORE_VALUE" property="paramMoreValue" jdbcType="VARCHAR"/>
+        <result column="STATE" property="state" jdbcType="CHAR"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, PARAM_CODE, PARAM_VALUE, PARAM_TEXT, PARAM_MORE_VALUE, STATE, DESCRIPTION, CREATE_DATE,
+        UPDATE_DATE
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_PARAM
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByParamId" parameterType="java.lang.Long">
+        delete from SYS_PARAM
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysParam">
+        insert into SYS_PARAM (ID, PARAM_CODE, PARAM_VALUE,
+      PARAM_TEXT, PARAM_MORE_VALUE, STATE,
+      DESCRIPTION, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{id,jdbcType=BIGINT}, #{paramCode,jdbcType=VARCHAR}, #{paramValue,jdbcType=VARCHAR},
+      #{paramText,jdbcType=VARCHAR}, #{paramMoreValue,jdbcType=VARCHAR}, #{state,jdbcType=CHAR},
+      #{description,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysParam" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into SYS_PARAM
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="paramCode != null">
+                PARAM_CODE,
+            </if>
+            <if test="paramValue != null">
+                PARAM_VALUE,
+            </if>
+            <if test="paramText != null">
+                PARAM_TEXT,
+            </if>
+            <if test="paramMoreValue != null">
+                PARAM_MORE_VALUE,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="paramCode != null">
+                #{paramCode,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null">
+                #{paramValue,jdbcType=VARCHAR},
+            </if>
+            <if test="paramText != null">
+                #{paramText,jdbcType=VARCHAR},
+            </if>
+            <if test="paramMoreValue != null">
+                #{paramMoreValue,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=CHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateParam" parameterType="com.codi.superman.base.domain.SysParam">
+        update SYS_PARAM
+        <set>
+            <if test="paramCode != null">
+                PARAM_CODE = #{paramCode,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null">
+                PARAM_VALUE = #{paramValue,jdbcType=VARCHAR},
+            </if>
+            <if test="paramText != null">
+                PARAM_TEXT = #{paramText,jdbcType=VARCHAR},
+            </if>
+            <if test="paramMoreValue != null">
+                PARAM_MORE_VALUE = #{paramMoreValue,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=CHAR},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.codi.superman.base.domain.SysParam">
+        update SYS_PARAM
+    set PARAM_CODE = #{paramCode,jdbcType=VARCHAR},
+      PARAM_VALUE = #{paramValue,jdbcType=VARCHAR},
+      PARAM_TEXT = #{paramText,jdbcType=VARCHAR},
+      PARAM_MORE_VALUE = #{paramMoreValue,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=CHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="selectParam" resultMap="BaseResultMap" parameterType="com.codi.superman.base.domain.SysParam">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_PARAM
+        WHERE PARAM_CODE=#{paramCode} AND STATE=#{state}
+    </select>
+
+    <select id="selectParamsCount" resultType="java.lang.Long">
+        SELECT COUNT(ID) FROM SYS_PARAM;
+    </select>
+
+    <select id="selectParams" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_PARAM
+    </select>
+</mapper>

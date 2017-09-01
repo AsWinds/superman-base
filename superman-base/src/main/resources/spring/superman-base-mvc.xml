@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+
+
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.codi.superman.base.controller" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <bean id="userPrivAspect" class="com.codi.superman.base.aop.UserPrivAspect"/>
+
+    <aop:config>
+        <aop:aspect ref="userPrivAspect" order="1">
+            <aop:pointcut
+                expression="within(com.codi.superman.base.controller..*) and @annotation(com.codi.superman.base.annotation.RequiresPermissions)"
+                id="checkUserPrivPointcut"/>
+            <aop:before method="before" pointcut-ref="checkUserPrivPointcut"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

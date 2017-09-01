@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysDB">
+    <select id="selectCount" resultType="java.lang.Long" parameterType="com.codi.superman.base.domain.SysDB">
+        SELECT COUNT(${primaryKeyName}) FROM ${tableName}
+        WHERE 1=1
+        <if test="includeFields != null">
+            <foreach item="item" index="index" collection="includeFields" open=" AND " separator=" AND " close="">
+                ${item.columnName}=#{item.columnValue}
+            </foreach>
+        </if>
+        <if test="excludeFields != null">
+            <foreach item="item" index="index" collection="excludeFields" open=" AND " separator=" AND " close="">
+                ${item.columnName}!=#{item.columnValue}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="isUnique" resultType="java.lang.Boolean" parameterType="com.codi.superman.base.domain.SysDB">
+        SELECT EXISTS(
+        SELECT 1 FROM ${tableName}
+        WHERE 1=1
+        <if test="includeFields != null">
+            <foreach item="item" index="index" collection="includeFields" open=" AND " separator=" AND " close="">
+                ${item.columnName}=#{item.columnValue}
+            </foreach>
+        </if>
+        <if test="excludeFields != null">
+            <foreach item="item" index="index" collection="excludeFields" open=" AND " separator=" AND " close="">
+                ${item.columnName}!=#{item.columnValue}
+            </foreach>
+        </if>
+        )
+    </select>
+
+
+</mapper>

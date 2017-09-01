@@ -1,0 +1,151 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>superman-base</module>
+        <module>superman-base-api</module>
+        <module>superman-web</module>
+        <module>superman-web2</module>
+        <module>superman-workflow</module>
+        <module>superman-workflow-api</module>
+    </modules>
+
+    <parent>
+        <groupId>com.codi</groupId>
+        <artifactId>codi-root</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+    </parent>
+
+
+    <artifactId>superman-server-base</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>SuperMan Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <codi.project.finalName>superman-web</codi.project.finalName>
+
+        <codi.base.version>1.5.1</codi.base.version>
+        <codi.superman.version>2.0.3</codi.superman.version>
+
+        <junit.version>4.12</junit.version>
+        <servlet.api.version>3.0.1</servlet.api.version>
+        <spring.version>4.3.4.RELEASE</spring.version>
+        <spring.session.version>1.3.0.RELEASE</spring.session.version>
+        <mybatis.generator.plugin.verion>2.3.0</mybatis.generator.plugin.verion>
+        <activiti.version>5.22.0</activiti.version>
+
+    </properties>
+
+    <dependencies>
+        <!-- 所有模块都依赖 -->
+        <dependency>
+            <groupId>com.codi</groupId>
+            <artifactId>codi-base</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.codi</groupId>
+                <artifactId>codi-base</artifactId>
+                <version>${codi.base.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codi</groupId>
+                <artifactId>superman-base</artifactId>
+                <version>${codi.superman.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codi</groupId>
+                <artifactId>superman-base-api</artifactId>
+                <version>${codi.superman.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codi</groupId>
+                <artifactId>superman-workflow</artifactId>
+                <version>${codi.superman.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codi</groupId>
+                <artifactId>superman-workflow-api</artifactId>
+                <version>${codi.superman.version}</version>
+            </dependency>
+
+            <!-- Servlet -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet.api.version}</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--activiti的核心jar包，其相关依赖jar包会一并导入-->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-engine</artifactId>
+                <version>${activiti.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring</artifactId>
+                <version>${activiti.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

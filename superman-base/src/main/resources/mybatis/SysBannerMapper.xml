@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codi.superman.base.domain.SysBanner">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysBanner">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="IMG_URL" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="URL" jdbcType="VARCHAR" property="url"/>
+        <result column="BANNER_ORDER" jdbcType="INTEGER" property="bannerOrder"/>
+        <result column="EFFECT_DATE" jdbcType="TIMESTAMP" property="effectDate"/>
+        <result column="EXPIRE_DATE" jdbcType="TIMESTAMP" property="expireDate"/>
+        <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="STATE_DATE" jdbcType="TIMESTAMP" property="stateDate"/>
+        <result column="STATE" jdbcType="CHAR" property="state"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, NAME, IMG_URL, URL, BANNER_ORDER, EFFECT_DATE, EXPIRE_DATE, CREATE_DATE, UPDATE_DATE,
+        DESCRIPTION, STATE_DATE, STATE
+  </sql>
+
+    <select id="selectAllBannersUser" resultMap="BaseResultMap">
+        SELECT
+        NAME, IMG_URL, URL, BANNER_ORDER
+        FROM SYS_BANNER
+        WHERE now()
+        BETWEEN EFFECT_DATE AND IFNULL(EXPIRE_DATE,'9999-12-31 00:00:00')
+        ORDER BY BANNER_ORDER ASC
+    </select>
+    <select id="selectAllBannersAdmin" resultMap="BaseResultMap">
+        select
+        ID, NAME, IMG_URL, URL, BANNER_ORDER, EFFECT_DATE, EXPIRE_DATE, CREATE_DATE, UPDATE_DATE,DESCRIPTION,
+        STATE_DATE, STATE
+        from SYS_BANNER
+        order by BANNER_ORDER ASC
+    </select>
+    <select id="selectCountByBannerOrder" resultType="java.lang.Integer">
+        SELECT
+        count(ID)
+        FROM SYS_BANNER
+        WHERE BANNER_ORDER = #{bannerOrder,jdbcType=INTEGER}
+        AND ID !=#{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectIdByBannerOrder" resultType="java.lang.Long">
+        SELECT
+        ID
+        FROM SYS_BANNER
+        WHERE BANNER_ORDER = #{bannerOrder,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SYS_BANNER
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysBanner">
+    insert into SYS_BANNER (ID, NAME, IMG_URL,
+      URL, BANNER_ORDER, EFFECT_DATE,
+      EXPIRE_DATE, CREATE_DATE, UPDATE_DATE,
+        DESCRIPTION, STATE_DATE, STATE)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{bannerOrder,jdbcType=INTEGER}, #{effectDate,jdbcType=TIMESTAMP},
+      #{expireDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+        #{description,jdbcType=VARCHAR}, #{stateDate,jdbcType=TIMESTAMP},#{state,jdbcType=CHAR})
+  </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.codi.superman.base.domain.SysBanner">
+        update SYS_BANNER
+        <set>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="imgUrl != null">
+                IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <!--<if test="url != null">-->
+                URL = #{url,jdbcType=VARCHAR},
+            <!--</if>-->
+            <if test="bannerOrder != null">
+                BANNER_ORDER = #{bannerOrder,jdbcType=INTEGER},
+            </if>
+            <if test="effectDate != null">
+                EFFECT_DATE = #{effectDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expireDate != null">
+                EXPIRE_DATE = #{expireDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="stateDate != null">
+                STATE_DATE = #{stateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=CHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+
+</mapper>

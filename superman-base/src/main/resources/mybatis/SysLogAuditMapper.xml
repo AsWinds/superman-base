@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysLogAudit">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysLogAudit">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="LOG_TYPE" property="logType" jdbcType="VARCHAR"/>
+        <result column="USER_ID" property="userId" jdbcType="BIGINT"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, LOG_TYPE, USER_ID, CREATE_DATE, DESCRIPTION
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_LOG_AUDIT
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from SYS_LOG_AUDIT
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysLogAudit">
+        insert into SYS_LOG_AUDIT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="logType != null">
+                LOG_TYPE,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="logType != null">
+                #{logType,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryLogAuditsCount" resultType="java.lang.Long">
+        SELECT COUNT(ID) FROM SYS_LOG_AUDIT
+    </select>
+
+    <select id="queryLogAudits" resultType="java.util.Map">
+        SELECT
+        A.ID, A.LOG_TYPE, A.USER_ID, A.CREATE_DATE, A.DESCRIPTION,
+        B.USER_NAME, B.USER_CODE
+        FROM SYS_LOG_AUDIT A LEFT JOIN SYS_USER B ON A.USER_ID=B.USER_ID
+        ORDER BY A.ID DESC
+    </select>
+</mapper>

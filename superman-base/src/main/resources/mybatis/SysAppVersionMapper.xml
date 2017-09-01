@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysAppVersion">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysAppVersion">
+        <id column="VERSION_ID" property="versionId" jdbcType="BIGINT"/>
+        <result column="APP_ID" property="appId" jdbcType="BIGINT"/>
+        <result column="VERSION_NUMBER" property="versionNumber" jdbcType="VARCHAR"/>
+        <result column="VERSION_DESC" property="versionDesc" jdbcType="VARCHAR"/>
+        <result column="DOWNLOAD_PATH" property="downloadPath" jdbcType="VARCHAR"/>
+        <result column="STATE" property="state" jdbcType="CHAR"/>
+        <result column="FORCE_UPDATE" property="forceUpdate" jdbcType="BIT"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    VERSION_ID, APP_ID, VERSION_NUMBER, VERSION_DESC, DOWNLOAD_PATH, STATE, FORCE_UPDATE,
+    CREATE_DATE, UPDATE_DATE
+  </sql>
+    <select id="selectByVersionId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_APP_VERSION
+        where VERSION_ID = #{versionId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByVersionNumberAndAppId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_APP_VERSION
+        WHERE VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR}
+        AND APP_ID = #{appId,jdbcType=BIGINT}
+    </select>
+    <select id="selectCountByVersionNumberAndAppId" resultType="java.lang.Integer">
+        SELECT
+        count(VERSION_ID)
+        FROM SYS_APP_VERSION
+        WHERE VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR}
+        AND APP_ID = #{appId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SYS_APP_VERSION
+    where VERSION_ID = #{versionId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysAppVersion">
+    insert into SYS_APP_VERSION (VERSION_ID, APP_ID, VERSION_NUMBER,
+      VERSION_DESC, DOWNLOAD_PATH, STATE,
+      FORCE_UPDATE, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{versionId,jdbcType=BIGINT}, #{appId,jdbcType=BIGINT}, #{versionNumber,jdbcType=VARCHAR},
+      #{versionDesc,jdbcType=VARCHAR}, #{downloadPath,jdbcType=VARCHAR}, #{state,jdbcType=CHAR},
+      #{forceUpdate,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysAppVersion" useGeneratedKeys="true"
+            keyProperty="versionId">
+        insert into SYS_APP_VERSION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="versionId != null">
+                VERSION_ID,
+            </if>
+            <if test="appId != null">
+                APP_ID,
+            </if>
+            <if test="versionNumber != null">
+                VERSION_NUMBER,
+            </if>
+            <if test="versionDesc != null">
+                VERSION_DESC,
+            </if>
+            <if test="downloadPath != null">
+                DOWNLOAD_PATH,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="forceUpdate != null">
+                FORCE_UPDATE,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="versionId != null">
+                #{versionId,jdbcType=BIGINT},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=BIGINT},
+            </if>
+            <if test="versionNumber != null">
+                #{versionNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="versionDesc != null">
+                #{versionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="downloadPath != null">
+                #{downloadPath,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=CHAR},
+            </if>
+            <if test="forceUpdate != null">
+                #{forceUpdate,jdbcType=BIT},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateVersion" parameterType="com.codi.superman.base.domain.SysAppVersion">
+        update SYS_APP_VERSION
+        <set>
+            <if test="appId != null">
+                APP_ID = #{appId,jdbcType=BIGINT},
+            </if>
+            <if test="versionNumber != null">
+                VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="versionDesc != null">
+                VERSION_DESC = #{versionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="downloadPath != null">
+                DOWNLOAD_PATH = #{downloadPath,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=CHAR},
+            </if>
+            <if test="forceUpdate != null">
+                FORCE_UPDATE = #{forceUpdate,jdbcType=BIT},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where VERSION_ID = #{versionId,jdbcType=BIGINT}
+    </update>
+    <delete id="deleteByVersionId" parameterType="java.lang.Long">
+        DELETE FROM SYS_APP_VERSION WHERE VERSION_ID=#{versionId}
+    </delete>
+
+    <select id="queryAppVersionsCount" resultType="java.lang.Long">
+        SELECT COUNT(VERSION_ID) FROM SYS_APP_VERSION;
+    </select>
+
+    <select id="queryAppVersions" resultType="java.util.Map">
+        SELECT DISTINCT
+        A.VERSION_ID AS 'versionId',
+        A.APP_ID AS 'appId',
+        B.APP_NAME AS 'appName',
+        A.VERSION_NUMBER AS 'versionNumber',
+        A.VERSION_DESC AS 'versionDesc',
+        A.DOWNLOAD_PATH AS 'downloadPath',
+        A.STATE AS 'state',
+        A.FORCE_UPDATE AS 'forceUpdate',
+        A.CREATE_DATE AS 'createDate',
+        A.UPDATE_DATE AS 'updateDate'
+
+        FROM SYS_APP_VERSION A, SYS_APP B
+        WHERE A.APP_ID = B.APP_ID
+        ORDER BY VERSION_ID DESC
+    </select>
+
+    <select id="queryLatestVersion" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        A.APP_ID,
+        A.VERSION_ID,
+        A.VERSION_NUMBER,
+        A.VERSION_DESC,
+        A.DOWNLOAD_PATH,
+        A.FORCE_UPDATE,
+        A.CREATE_DATE,
+        A.UPDATE_DATE
+        FROM SYS_APP_VERSION A,(
+        SELECT MAX(VERSION_ID) AS 'MAX_VERSION_ID'
+        FROM SYS_APP_VERSION
+        WHERE APP_ID=#{appId} AND STATE='A' ) TEMP
+        WHERE A.VERSION_ID = TEMP.MAX_VERSION_ID
+    </select>
+
+    <select id="checkVersionExist" resultType="java.lang.Boolean" parameterType="java.lang.Long">
+        SELECT EXISTS (SELECT VERSION_ID FROM SYS_APP_VERSION WHERE APP_ID=#{appId})
+    </select>
+</mapper>

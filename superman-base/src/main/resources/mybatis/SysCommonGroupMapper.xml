@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codi.superman.base.domain.SysCommonGroup">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysCommonGroup">
+        <id column="GROUP_ID" jdbcType="BIGINT" property="groupId"/>
+        <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName"/>
+        <result column="BIZ_CODE" jdbcType="VARCHAR" property="bizCode"/>
+        <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="BIZ_GROUP_CODE" jdbcType="VARCHAR" property="bizGroupCode"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        GROUP_ID, GROUP_NAME, BIZ_CODE, CREATE_DATE, UPDATE_DATE, DESCRIPTION, BIZ_GROUP_CODE
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_COMMON_GROUP
+        where GROUP_ID = #{groupId,jdbcType=BIGINT}
+    </select>
+    <select id="selectGroupIdByBizCode" parameterType="String" resultType="java.lang.Long">
+        select
+        GROUP_ID
+        from SYS_COMMON_GROUP
+        where BIZ_CODE = #{bizCode,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByBizGroupCode" parameterType="String" resultMap="BaseResultMap">
+        select
+        GROUP_ID, GROUP_NAME
+        from SYS_COMMON_GROUP
+        where BIZ_GROUP_CODE = #{bizGroupCode,jdbcType=VARCHAR}
+    </select>
+    <select id="selectCountByBizCode" resultType="java.lang.Integer" parameterType="String">
+        SELECT
+        count(GROUP_ID)
+        FROM SYS_COMMON_GROUP
+        WHERE BIZ_CODE = #{bizCode,jdbcType=VARCHAR}
+    </select>
+    <select id="selectGroupCount" resultType="java.lang.Integer">
+        select
+        count(GROUP_ID)
+        from SYS_COMMON_GROUP
+    </select>
+    <select id="selectAllGroup" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_COMMON_GROUP
+        ORDER BY BIZ_GROUP_CODE,BIZ_CODE,CREATE_DATE DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SYS_COMMON_GROUP
+    where GROUP_ID = #{groupId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysCommonGroup">
+    insert into SYS_COMMON_GROUP (GROUP_ID, GROUP_NAME, BIZ_CODE,
+        CREATE_DATE, UPDATE_DATE, DESCRIPTION,
+        BIZ_GROUP_CODE)
+    values (#{groupId,jdbcType=BIGINT}, #{groupName,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR},
+        #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR},
+        #{bizGroupCode,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysCommonGroup">
+        insert into SYS_COMMON_GROUP
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">
+                GROUP_ID,
+            </if>
+            <if test="groupName != null">
+                GROUP_NAME,
+            </if>
+            <if test="bizCode != null">
+                BIZ_CODE,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="bizGroupCode != null">
+                BIZ_GROUP_CODE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">
+                #{groupId,jdbcType=BIGINT},
+            </if>
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="bizCode != null">
+                #{bizCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="bizGroupCode != null">
+                #{bizGroupCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.codi.superman.base.domain.SysCommonGroup">
+        update SYS_COMMON_GROUP
+        <set>
+            <if test="groupName != null">
+                GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="bizCode != null">
+                BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="bizGroupCode != null">
+                BIZ_GROUP_CODE = #{bizGroupCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where GROUP_ID = #{groupId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.codi.superman.base.domain.SysCommonGroup">
+    update SYS_COMMON_GROUP
+    set GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+        BIZ_GROUP_CODE = #{bizGroupCode,jdbcType=VARCHAR}
+    where GROUP_ID = #{groupId,jdbcType=BIGINT}
+  </update>
+</mapper>

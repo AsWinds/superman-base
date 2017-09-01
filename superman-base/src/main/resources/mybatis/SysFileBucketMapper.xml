@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysFileBucket">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysFileBucket">
+        <id column="BUCKET_ID" property="bucketId" jdbcType="BIGINT"/>
+        <result column="BUCKET_NAME" property="bucketName" jdbcType="VARCHAR"/>
+        <result column="BUCKET_CODE" property="bucketCode" jdbcType="VARCHAR"/>
+        <result column="HOST_NAME" property="hostName" jdbcType="VARCHAR"/>
+        <result column="IS_PUBLIC" property="isPublic" jdbcType="TINYINT"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        BUCKET_ID, BUCKET_NAME, BUCKET_CODE, HOST_NAME, IS_PUBLIC, CREATE_DATE, UPDATE_DATE,
+        DESCRIPTION
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_FILE_BUCKET
+        where BUCKET_ID = #{bucketId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from SYS_FILE_BUCKET
+        where BUCKET_ID = #{bucketId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysFileBucket" useGeneratedKeys="true"
+            keyProperty="bucketId">
+        insert into SYS_FILE_BUCKET (BUCKET_ID, BUCKET_NAME, BUCKET_CODE,
+        HOST_NAME, IS_PUBLIC, CREATE_DATE,
+        UPDATE_DATE, DESCRIPTION)
+        values (#{bucketId,jdbcType=BIGINT}, #{bucketName,jdbcType=VARCHAR}, #{bucketCode,jdbcType=VARCHAR},
+        #{hostName,jdbcType=VARCHAR}, #{isPublic,jdbcType=TINYINT}, #{createDate,jdbcType=TIMESTAMP},
+        #{updateDate,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysFileBucket" useGeneratedKeys="true"
+            keyProperty="bucketId">
+        insert into SYS_FILE_BUCKET
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bucketId != null">
+                BUCKET_ID,
+            </if>
+            <if test="bucketName != null">
+                BUCKET_NAME,
+            </if>
+            <if test="bucketCode != null">
+                BUCKET_CODE,
+            </if>
+            <if test="hostName != null">
+                HOST_NAME,
+            </if>
+            <if test="isPublic != null">
+                IS_PUBLIC,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bucketId != null">
+                #{bucketId,jdbcType=BIGINT},
+            </if>
+            <if test="bucketName != null">
+                #{bucketName,jdbcType=VARCHAR},
+            </if>
+            <if test="bucketCode != null">
+                #{bucketCode,jdbcType=VARCHAR},
+            </if>
+            <if test="hostName != null">
+                #{hostName,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null">
+                #{isPublic,jdbcType=TINYINT},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.codi.superman.base.domain.SysFileBucket">
+        update SYS_FILE_BUCKET
+        <set>
+            <if test="bucketName != null">
+                BUCKET_NAME = #{bucketName,jdbcType=VARCHAR},
+            </if>
+            <if test="bucketCode != null">
+                BUCKET_CODE = #{bucketCode,jdbcType=VARCHAR},
+            </if>
+            <if test="hostName != null">
+                HOST_NAME = #{hostName,jdbcType=VARCHAR},
+            </if>
+            <if test="isPublic != null">
+                IS_PUBLIC = #{isPublic,jdbcType=TINYINT},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where BUCKET_ID = #{bucketId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.codi.superman.base.domain.SysFileBucket">
+        update SYS_FILE_BUCKET
+        set BUCKET_NAME = #{bucketName,jdbcType=VARCHAR},
+        BUCKET_CODE = #{bucketCode,jdbcType=VARCHAR},
+        HOST_NAME = #{hostName,jdbcType=VARCHAR},
+        IS_PUBLIC = #{isPublic,jdbcType=TINYINT},
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+        DESCRIPTION = #{description,jdbcType=VARCHAR}
+        where BUCKET_ID = #{bucketId,jdbcType=BIGINT}
+    </update>
+
+    <select id="queryList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_FILE_BUCKET ORDER BY BUCKET_ID
+    </select>
+</mapper>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysBulletin">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysBulletin">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="GROUP_ID" property="groupId" jdbcType="BIGINT"/>
+        <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+        <result column="INTRO" property="intro" jdbcType="VARCHAR"/>
+        <result column="HOME_IMG_URL" property="homeImgUrl" jdbcType="VARCHAR"/>
+        <result column="CONTENT" property="content" jdbcType="VARCHAR"/>
+        <result column="DEVICE_TYPE" property="deviceType" jdbcType="INTEGER"/>
+        <result column="TYPE" property="type" jdbcType="INTEGER"/>
+        <result column="STATE" property="state" jdbcType="INTEGER"/>
+        <result column="EFFECT_DATE" property="effectDate" jdbcType="TIMESTAMP"/>
+        <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+        <result column="BIZ_ID" property="bizId" jdbcType="VARCHAR"/>
+        <result column="URL" property="url" jdbcType="VARCHAR"/>
+        <result column="AUTHOR" property="author" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, GROUP_ID, TITLE, INTRO, HOME_IMG_URL, CONTENT, DEVICE_TYPE, TYPE, STATE, EFFECT_DATE,
+        EXPIRE_DATE, CREATE_DATE, UPDATE_DATE, DESCRIPTION, BIZ_ID, URL, AUTHOR
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_BULLETIN
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAllBulletinAdmin" resultType="java.util.Map">
+        SELECT
+        A.ID AS id,
+        A.GROUP_ID AS groupId,
+        A.TITLE AS title,
+        A.INTRO AS intro,
+        A.HOME_IMG_URL AS homeImgUrl,
+        A.CONTENT AS content,
+        A.DEVICE_TYPE AS deviceType,
+        A.TYPE AS type,
+        A.STATE AS state,
+        A.EFFECT_DATE AS effectDate,
+        A.EXPIRE_DATE AS expireDate,
+        A.CREATE_DATE AS createDate,
+        A.UPDATE_DATE AS updateDate,
+        A.DESCRIPTION AS description,
+        A.BIZ_ID AS bizId,
+        A.URL AS url,
+        A.AUTHOR AS author,
+        B.GROUP_NAME AS groupName
+        FROM SYS_BULLETIN A, SYS_COMMON_GROUP B
+        WHERE A.GROUP_ID = B.GROUP_ID
+
+        <if test="groupId != null">
+            AND A.GROUP_ID = #{groupId,jdbcType=BIGINT}
+        </if>
+        ORDER BY A.CREATE_DATE DESC
+    </select>
+    <select id="selectBulletinCount" resultType="java.lang.Integer">
+        select
+        count(ID)
+        from SYS_BULLETIN
+    </select>
+    <select id="selectCountByGroupId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+        SELECT
+        count(ID)
+        FROM SYS_BULLETIN
+        WHERE GROUP_ID = #{groupId,jdbcType=BIGINT}
+    </select>
+    <select id="selectBulletinByGroupId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        ID,TITLE,CREATE_DATE,TYPE,URL
+        from SYS_BULLETIN
+        where GROUP_ID = #{groupId,jdbcType=BIGINT}
+        order by CREATE_DATE DESC
+    </select>
+    <select id="selectBulletinByIdUser" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        CONTENT,AUTHOR,TITLE,CREATE_DATE
+        from SYS_BULLETIN
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from SYS_BULLETIN
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysBulletin">
+    insert into SYS_BULLETIN (ID, GROUP_ID, TITLE,
+      INTRO, HOME_IMG_URL, CONTENT,
+      DEVICE_TYPE, TYPE, STATE,
+      EFFECT_DATE, EXPIRE_DATE, CREATE_DATE,
+        UPDATE_DATE, DESCRIPTION, BIZ_ID, URL, AUTHOR
+      )
+    values (#{id,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
+      #{intro,jdbcType=VARCHAR}, #{homeImgUrl,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+      #{deviceType,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{state,jdbcType=INTEGER},
+      #{effectDate,jdbcType=TIMESTAMP}, #{expireDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP},
+        #{updateDate,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{bizId,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysBulletin">
+        insert into SYS_BULLETIN
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="groupId != null">
+                GROUP_ID,
+            </if>
+            <if test="title != null">
+                TITLE,
+            </if>
+            <if test="intro != null">
+                INTRO,
+            </if>
+            <if test="homeImgUrl != null">
+                HOME_IMG_URL,
+            </if>
+            <if test="content != null">
+                CONTENT,
+            </if>
+            <if test="deviceType != null">
+                DEVICE_TYPE,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="effectDate != null">
+                EFFECT_DATE,
+            </if>
+            <if test="expireDate != null">
+                EXPIRE_DATE,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="bizId != null">
+                biz_ID,
+            </if>
+            <if test="url != null">
+                URL,
+            </if>
+            <if test="author != null">
+                AUTHOR,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="intro != null">
+                #{intro,jdbcType=VARCHAR},
+            </if>
+            <if test="homeImgUrl != null">
+                #{homeImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null">
+                #{deviceType,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="effectDate != null">
+                #{effectDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expireDate != null">
+                #{expireDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="bizId != null">
+                #{bizId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null">
+                #{author,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.codi.superman.base.domain.SysBulletin">
+        update SYS_BULLETIN
+        <set>
+            <if test="groupId != null">
+                GROUP_ID = #{groupId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                TITLE = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="intro != null">
+                INTRO = #{intro,jdbcType=VARCHAR},
+            </if>
+            <if test="homeImgUrl != null">
+                HOME_IMG_URL = #{homeImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null">
+                DEVICE_TYPE = #{deviceType,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="effectDate != null">
+                EFFECT_DATE = #{effectDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expireDate != null">
+                EXPIRE_DATE = #{expireDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="bizId != null">
+                BIZ_ID = #{bizId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                URL = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null">
+                AUTHOR = #{author,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.codi.superman.base.domain.SysBulletin">
+    update SYS_BULLETIN
+    set GROUP_ID = #{groupId,jdbcType=BIGINT},
+      TITLE = #{title,jdbcType=VARCHAR},
+      INTRO = #{intro,jdbcType=VARCHAR},
+      HOME_IMG_URL = #{homeImgUrl,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      DEVICE_TYPE = #{deviceType,jdbcType=INTEGER},
+      TYPE = #{type,jdbcType=INTEGER},
+      STATE = #{state,jdbcType=INTEGER},
+      EFFECT_DATE = #{effectDate,jdbcType=TIMESTAMP},
+      EXPIRE_DATE = #{expireDate,jdbcType=TIMESTAMP},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+        BIZ_ID = #{bizId,jdbcType=VARCHAR}
+        URL = #{url,jdbcType=VARCHAR},
+        AUTHOR = #{author,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

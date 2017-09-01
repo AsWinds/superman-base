@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysUser">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysUser">
+        <id column="USER_ID" property="userId" jdbcType="BIGINT"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="USER_CODE" property="userCode" jdbcType="VARCHAR"/>
+        <result column="PWD" property="pwd" jdbcType="VARCHAR"/>
+        <result column="MOBILE" property="mobile" jdbcType="VARCHAR"/>
+        <result column="MEMO" property="memo" jdbcType="VARCHAR"/>
+        <result column="USER_EFF_DATE" property="userEffDate" jdbcType="TIMESTAMP"/>
+        <result column="USER_EXP_DATE" property="userExpDate" jdbcType="TIMESTAMP"/>
+        <result column="CREATED_DATE" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="STATE" property="state" jdbcType="CHAR"/>
+        <result column="STATE_DATE" property="stateDate" jdbcType="TIMESTAMP"/>
+        <result column="IS_LOCKED" property="isLocked" jdbcType="CHAR"/>
+        <result column="PWD_EXP_DATE" property="pwdExpDate" jdbcType="TIMESTAMP"/>
+        <result column="FORCE_LOGIN" property="forceLogin" jdbcType="CHAR"/>
+        <result column="LOGIN_FAIL" property="loginFail" jdbcType="INTEGER"/>
+        <result column="UNLOCK_DATE" property="unlockDate" jdbcType="TIMESTAMP"/>
+        <result column="USER_SRC" property="userSrc" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        USER_ID, USER_NAME, USER_CODE, PWD, MOBILE, MEMO, USER_EFF_DATE, USER_EXP_DATE, CREATED_DATE,
+        STATE,
+        STATE_DATE, IS_LOCKED, PWD_EXP_DATE, FORCE_LOGIN, LOGIN_FAIL, UNLOCK_DATE,
+        USER_SRC
+    </sql>
+
+    <select id="selectUser" resultMap="BaseResultMap" parameterType="com.codi.superman.base.domain.SysUser">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_USER
+        where 1=1
+        <if test="userId != null">
+            AND USER_ID = #{userId}
+        </if>
+        <if test="userCode != null">
+            AND USER_CODE = #{userCode}
+        </if>
+        <if test="state != null">
+            AND STATE = #{state}
+        </if>
+
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_USER
+        where USER_ID = #{userId,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysUser">
+        insert into SYS_USER (USER_ID, USER_NAME, USER_CODE,
+        PWD, MOBILE, MEMO,
+        USER_EFF_DATE, USER_EXP_DATE, CREATED_DATE,
+        STATE, STATE_DATE, IS_LOCKED,
+        PWD_EXP_DATE, FORCE_LOGIN, LOGIN_FAIL,
+        UNLOCK_DATE, USER_SRC)
+        values
+        (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR},
+        #{pwd,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR},
+        #{userEffDate,jdbcType=TIMESTAMP},
+        #{userExpDate,jdbcType=TIMESTAMP}, #{createdDate,jdbcType=TIMESTAMP},
+        #{state,jdbcType=CHAR},
+        #{stateDate,jdbcType=TIMESTAMP}, #{isLocked,jdbcType=CHAR},
+        #{pwdExpDate,jdbcType=TIMESTAMP},
+        #{forceLogin,jdbcType=CHAR}, #{loginFail,jdbcType=INTEGER},
+        #{unlockDate,jdbcType=TIMESTAMP},
+        #{userSrc,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysUser">
+        insert into SYS_USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="userName != null">
+                USER_NAME,
+            </if>
+            <if test="userCode != null">
+                USER_CODE,
+            </if>
+            <if test="pwd != null">
+                PWD,
+            </if>
+            <if test="mobile != null">
+                MOBILE,
+            </if>
+            <if test="memo != null">
+                MEMO,
+            </if>
+            <if test="userEffDate != null">
+                USER_EFF_DATE,
+            </if>
+            <if test="userExpDate != null">
+                USER_EXP_DATE,
+            </if>
+            <if test="createdDate != null">
+                CREATED_DATE,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="stateDate != null">
+                STATE_DATE,
+            </if>
+            <if test="isLocked != null">
+                IS_LOCKED,
+            </if>
+            <if test="pwdExpDate != null">
+                PWD_EXP_DATE,
+            </if>
+            <if test="forceLogin != null">
+                FORCE_LOGIN,
+            </if>
+            <if test="loginFail != null">
+                LOGIN_FAIL,
+            </if>
+            <if test="unlockDate != null">
+                UNLOCK_DATE,
+            </if>
+            <if test="userSrc != null">
+                USER_SRC,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null">
+                #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="memo != null">
+                #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="userEffDate != null">
+                #{userEffDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userExpDate != null">
+                #{userExpDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=CHAR},
+            </if>
+            <if test="stateDate != null">
+                #{stateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isLocked != null">
+                #{isLocked,jdbcType=CHAR},
+            </if>
+            <if test="pwdExpDate != null">
+                #{pwdExpDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="forceLogin != null">
+                #{forceLogin,jdbcType=CHAR},
+            </if>
+            <if test="loginFail != null">
+                #{loginFail,jdbcType=INTEGER},
+            </if>
+            <if test="unlockDate != null">
+                #{unlockDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userSrc != null">
+                #{userSrc,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.codi.superman.base.domain.SysUser">
+        update SYS_USER
+        <set>
+            <if test="userName != null">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                USER_CODE = #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null">
+                PWD = #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                MOBILE = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="memo != null">
+                MEMO = #{memo,jdbcType=VARCHAR},
+            </if>
+            <if test="userEffDate != null">
+                USER_EFF_DATE = #{userEffDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userExpDate != null">
+                USER_EXP_DATE = #{userExpDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdDate != null">
+                CREATED_DATE = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=CHAR},
+            </if>
+            <if test="stateDate != null">
+                STATE_DATE = #{stateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isLocked != null">
+                IS_LOCKED = #{isLocked,jdbcType=CHAR},
+            </if>
+            <if test="pwdExpDate != null">
+                PWD_EXP_DATE = #{pwdExpDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="forceLogin != null">
+                FORCE_LOGIN = #{forceLogin,jdbcType=CHAR},
+            </if>
+            <if test="loginFail != null">
+                LOGIN_FAIL = #{loginFail,jdbcType=INTEGER},
+            </if>
+            <if test="unlockDate != null">
+                UNLOCK_DATE = #{unlockDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userSrc != null">
+                USER_SRC = #{userSrc,jdbcType=BIGINT},
+            </if>
+        </set>
+        where USER_ID = #{userId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.codi.superman.base.domain.SysUser">
+        update SYS_USER
+        set USER_NAME = #{userName,jdbcType=VARCHAR},
+        USER_CODE = #{userCode,jdbcType=VARCHAR},
+        PWD =
+        #{pwd,jdbcType=VARCHAR},
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+        MEMO =
+        #{memo,jdbcType=VARCHAR},
+        USER_EFF_DATE =
+        #{userEffDate,jdbcType=TIMESTAMP},
+        USER_EXP_DATE =
+        #{userExpDate,jdbcType=TIMESTAMP},
+        CREATED_DATE =
+        #{createdDate,jdbcType=TIMESTAMP},
+        STATE = #{state,jdbcType=CHAR},
+        STATE_DATE = #{stateDate,jdbcType=TIMESTAMP},
+        IS_LOCKED = #{isLocked,jdbcType=CHAR},
+        PWD_EXP_DATE =
+        #{pwdExpDate,jdbcType=TIMESTAMP},
+        FORCE_LOGIN =
+        #{forceLogin,jdbcType=CHAR},
+        LOGIN_FAIL = #{loginFail,jdbcType=INTEGER},
+        UNLOCK_DATE = #{unlockDate,jdbcType=TIMESTAMP},
+        USER_SRC = #{userSrc,jdbcType=BIGINT}
+        where USER_ID =
+        #{userId,jdbcType=BIGINT}
+    </update>
+
+    <update id="lockUser" parameterType="java.lang.Long">
+        update SYS_USER
+        set
+        IS_LOCKED = 'Y',
+        LOGIN_FAIL= 0,
+        UNLOCK_DATE = NULL
+        where USER_ID=#{userId,jdbcType=BIGINT}
+    </update>
+
+    <select id="getUsersCount" resultType="java.lang.Long">
+        SELECT COUNT(USER_ID) from SYS_USER;
+    </select>
+
+    <select id="getUsers" resultMap="BaseResultMap">
+        SELECT
+        USER_ID, USER_NAME, USER_CODE, MOBILE, MEMO, USER_EFF_DATE, USER_EXP_DATE, CREATED_DATE,
+        STATE,
+        STATE_DATE, IS_LOCKED, PWD_EXP_DATE, FORCE_LOGIN, LOGIN_FAIL, UNLOCK_DATE,
+        USER_SRC
+        FROM SYS_USER A ORDER BY A.USER_NAME
+    </select>
+
+    <delete id="delUser" parameterType="java.lang.Long">
+        DELETE FROM SYS_USER WHERE USER_ID=#{userId}
+    </delete>
+
+    <select id="checkUserCode" resultType="java.lang.Boolean"
+            parameterType="com.codi.superman.base.domain.SysUser">
+        SELECT EXISTS(
+        SELECT USER_ID FROM SYS_USER
+        WHERE USER_CODE=#{userCode}
+        <if test="userId != null">
+            USER_ID != #{userId}
+        </if>
+        )
+    </select>
+
+    <select id="getUsersByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        A.USER_ID,
+        A.USER_NAME,
+        A.USER_CODE,
+        A.MOBILE,
+        A.MEMO,
+        A.USER_EFF_DATE,
+        A.USER_EXP_DATE,
+        A.CREATED_DATE,
+        A.STATE,
+        A.STATE_DATE,
+        A.IS_LOCKED,
+        A.PWD_EXP_DATE,
+        A.FORCE_LOGIN,
+        A.LOGIN_FAIL,
+        A.UNLOCK_DATE,
+        A.USER_SRC
+        FROM SYS_USER A, SYS_USER_ROLE B
+        WHERE A.USER_ID = B.USER_ID AND B.ROLE_ID=#{roleId}
+        ORDER BY A.USER_NAME
+    </select>
+</mapper>

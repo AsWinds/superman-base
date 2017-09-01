@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codi.superman.workflow.domain.SysBizWorkFlow">
+    <resultMap id="BaseResultMap" type="com.codi.superman.workflow.domain.SysBizWorkFlow">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="USER_ID" jdbcType="BIGINT" property="userId"/>
+        <result column="USER_CODE" jdbcType="VARCHAR" property="userCode"/>
+        <result column="STATE" jdbcType="INTEGER" property="state"/>
+        <result column="BIZ_TYPE" jdbcType="VARCHAR" property="bizType"/>
+        <result column="BIZ_KEY" jdbcType="VARCHAR" property="bizKey"/>
+        <result column="STATE_DATE" jdbcType="TIMESTAMP" property="stateDate"/>
+        <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, USER_ID, USER_CODE, STATE, BIZ_TYPE, BIZ_KEY, STATE_DATE, CREATE_DATE, UPDATE_DATE,
+    DESCRIPTION
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_BIZ_WORKFLOW
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_BIZ_WORKFLOW
+        where USER_ID = #{userId}
+        <if test="state != null">
+            AND state= #{state}
+        </if>
+        order by CREATE_DATE desc
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SYS_BIZ_WORKFLOW
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.codi.superman.workflow.domain.SysBizWorkFlow">
+        insert into SYS_BIZ_WORKFLOW (ID, USER_ID, USER_CODE,
+        STATE, BIZ_TYPE, BIZ_KEY,
+        STATE_DATE, CREATE_DATE, UPDATE_DATE,
+        DESCRIPTION)
+        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{userCode,jdbcType=VARCHAR},
+        #{state,jdbcType=INTEGER}, #{bizType,jdbcType=VARCHAR}, #{bizKey,jdbcType=VARCHAR},
+        #{stateDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+        #{description,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.workflow.domain.SysBizWorkFlow">
+        insert into SYS_BIZ_WORKFLOW
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="userCode != null">
+                USER_CODE,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="bizType != null">
+                BIZ_TYPE,
+            </if>
+            <if test="bizKey != null">
+                BIZ_KEY,
+            </if>
+            <if test="stateDate != null">
+                STATE_DATE,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="bizType != null">
+                #{bizType,jdbcType=VARCHAR},
+            </if>
+            <if test="bizKey != null">
+                #{bizKey,jdbcType=VARCHAR},
+            </if>
+            <if test="stateDate != null">
+                #{stateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.codi.superman.workflow.domain.SysBizWorkFlow">
+        update SYS_BIZ_WORKFLOW
+        <set>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userCode != null">
+                USER_CODE = #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="bizType != null">
+                BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+            </if>
+            <if test="bizKey != null">
+                BIZ_KEY = #{bizKey,jdbcType=VARCHAR},
+            </if>
+            <if test="stateDate != null">
+                STATE_DATE = #{stateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.codi.superman.workflow.domain.SysBizWorkFlow">
+        update SYS_BIZ_WORKFLOW
+        set USER_ID = #{userId,jdbcType=BIGINT},
+        USER_CODE = #{userCode,jdbcType=VARCHAR},
+        STATE = #{state,jdbcType=INTEGER},
+        BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+        BIZ_KEY = #{bizKey,jdbcType=VARCHAR},
+        STATE_DATE = #{stateDate,jdbcType=TIMESTAMP},
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+        DESCRIPTION = #{description,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="updateByBiz" parameterType="com.codi.superman.workflow.domain.SysBizWorkFlow">
+        update SYS_BIZ_WORKFLOW
+        <set>
+            <if test="state != null">
+                STATE = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="stateDate != null">
+                STATE_DATE = #{stateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where BIZ_TYPE = #{bizType,jdbcType=VARCHAR} AND BIZ_KEY = #{bizKey,jdbcType=VARCHAR}
+
+    </update>
+
+</mapper>

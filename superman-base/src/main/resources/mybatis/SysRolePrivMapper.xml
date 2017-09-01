@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.codi.superman.base.domain.SysRolePriv">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysRolePriv">
+        <id column="ROLE_ID" property="roleId" jdbcType="BIGINT"/>
+        <id column="PRIV_ID" property="privId" jdbcType="BIGINT"/>
+        <result column="STATE" property="state" jdbcType="CHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ROLE_ID, PRIV_ID, STATE, CREATE_DATE, UPDATE_DATE
+    </sql>
+
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysRolePriv">
+        insert into SYS_ROLE_PRIV (ROLE_ID, PRIV_ID, STATE,
+        CREATE_DATE, UPDATE_DATE)
+        values (#{roleId,jdbcType=BIGINT}, #{privId,jdbcType=BIGINT}, #{state,jdbcType=CHAR},
+        #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <update id="updateState" parameterType="com.codi.superman.base.domain.SysRolePriv">
+        update SYS_ROLE_PRIV
+        <set>
+            <if test="state != null">
+                STATE = #{state,jdbcType=CHAR},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ROLE_ID = #{roleId,jdbcType=BIGINT}
+        and PRIV_ID = #{privId,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delRolePriv" parameterType="com.codi.superman.base.domain.SysRolePriv">
+        DELETE FROM SYS_ROLE_PRIV
+        WHERE ROLE_ID = #{roleId,jdbcType=BIGINT}
+        AND PRIV_ID = #{privId,jdbcType=BIGINT}
+    </delete>
+
+    <select id="checkRoleExist" resultType="java.lang.Boolean" parameterType="java.lang.Long">
+        SELECT EXISTS (SELECT ROLE_ID,PRIV_ID FROM SYS_ROLE_PRIV WHERE ROLE_ID=#{roleId})
+    </select>
+
+    <select id="checkPrivExist" resultType="java.lang.Boolean" parameterType="java.lang.Long">
+        SELECT EXISTS (SELECT ROLE_ID,PRIV_ID FROM SYS_ROLE_PRIV WHERE PRIV_ID=#{privId})
+    </select>
+
+    <select id="checkRolePrivExist" resultType="java.lang.Boolean" parameterType="java.util.Map">
+        SELECT EXISTS (SELECT ROLE_ID,PRIV_ID FROM SYS_ROLE_PRIV WHERE ROLE_ID=#{roleId} AND PRIV_ID=#{privId})
+    </select>
+
+</mapper>

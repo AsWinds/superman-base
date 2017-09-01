@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codi.superman.base.domain.SysPriv">
+    <resultMap id="BaseResultMap" type="com.codi.superman.base.domain.SysPriv">
+        <id column="PRIV_ID" jdbcType="BIGINT" property="privId"/>
+        <result column="PARENT_PRIV_ID" jdbcType="BIGINT" property="parentPrivId"/>
+        <result column="PRIV_CODE" jdbcType="VARCHAR" property="privCode"/>
+        <result column="PRIV_NAME" jdbcType="VARCHAR" property="privName"/>
+        <result column="TYPE" jdbcType="INTEGER" property="type"/>
+        <result column="URL" jdbcType="VARCHAR" property="url"/>
+        <result column="PATH" jdbcType="VARCHAR" property="path"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+        <result column="STATE" jdbcType="CHAR" property="state"/>
+        <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        PRIV_ID, PARENT_PRIV_ID, PRIV_CODE, PRIV_NAME, TYPE, URL, PATH, DESCRIPTION, STATE,
+        CREATE_DATE, UPDATE_TIME
+    </sql>
+
+
+    <insert id="insert" parameterType="com.codi.superman.base.domain.SysPriv">
+        insert into SYS_PRIV (PRIV_ID, PARENT_PRIV_ID, PRIV_CODE,
+        PRIV_NAME, TYPE, URL,
+        PATH, DESCRIPTION, STATE,
+        CREATE_DATE, UPDATE_TIME
+        )
+        values (#{privId,jdbcType=BIGINT}, #{parentPrivId,jdbcType=BIGINT}, #{privCode,jdbcType=VARCHAR},
+        #{privName,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR},
+        #{path,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{state,jdbcType=CHAR},
+        #{createDate,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.codi.superman.base.domain.SysPriv">
+        insert into SYS_PRIV
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="privId != null">
+                PRIV_ID,
+            </if>
+            <if test="parentPrivId != null">
+                PARENT_PRIV_ID,
+            </if>
+            <if test="privCode != null">
+                PRIV_CODE,
+            </if>
+            <if test="privName != null">
+                PRIV_NAME,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="url != null">
+                URL,
+            </if>
+            <if test="path != null">
+                PATH,
+            </if>
+            <if test="description != null">
+                DESCRIPTION,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="privId != null">
+                #{privId,jdbcType=BIGINT},
+            </if>
+            <if test="parentPrivId != null">
+                #{parentPrivId,jdbcType=BIGINT},
+            </if>
+            <if test="privCode != null">
+                #{privCode,jdbcType=VARCHAR},
+            </if>
+            <if test="privName != null">
+                #{privName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=CHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="spId != null">
+                #{spId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.codi.superman.base.domain.SysPriv">
+        update SYS_PRIV
+        <set>
+            <if test="parentPrivId != null">
+                PARENT_PRIV_ID = #{parentPrivId,jdbcType=BIGINT},
+            </if>
+            <if test="privCode != null">
+                PRIV_CODE = #{privCode,jdbcType=VARCHAR},
+            </if>
+            <if test="privName != null">
+                PRIV_NAME = #{privName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                URL = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                PATH = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=CHAR},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PRIV_ID = #{privId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.codi.superman.base.domain.SysPriv">
+        update SYS_PRIV
+        set PARENT_PRIV_ID = #{parentPrivId,jdbcType=BIGINT},
+        PRIV_CODE = #{privCode,jdbcType=VARCHAR},
+        PRIV_NAME = #{privName,jdbcType=VARCHAR},
+        TYPE = #{type,jdbcType=INTEGER},
+        URL = #{url,jdbcType=VARCHAR},
+        PATH = #{path,jdbcType=VARCHAR},
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+        STATE = #{state,jdbcType=CHAR},
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+        where PRIV_ID = #{privId,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrivId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_PRIV
+        where PRIV_ID = #{privId,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrivId" parameterType="java.lang.Long">
+        delete from SYS_PRIV
+        where PRIV_ID = #{privId,jdbcType=BIGINT}
+    </delete>
+
+    <select id="checkPrivCode" resultType="java.lang.Boolean" parameterType="java.util.Map">
+        SELECT EXISTS (
+        SELECT PRIV_ID FROM SYS_PRIV
+        WHERE PRIV_CODE=#{privCode}
+        <if test="privId != null">
+            AND PRIV_ID!=#{privId}
+        </if>
+        )
+
+    </select>
+
+    <select id="queryPrivsCount" resultType="java.lang.Long">
+        SELECT COUNT(PRIV_ID) FROM SYS_PRIV
+    </select>
+
+    <select id="queryPrivs" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_PRIV A ORDER BY A.TYPE,A.PRIV_NAME
+    </select>
+
+    <select id="queryRootPrivs" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SYS_PRIV A
+        WHERE A.TYPE=0
+        ORDER BY A.PRIV_NAME
+    </select>
+
+    <select id="queryPrivsByRoleIds" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT DISTINCT
+        B.PRIV_ID,
+        B.PARENT_PRIV_ID,
+        B.PRIV_CODE,
+        B.PRIV_NAME,
+        B.TYPE,
+        B.URL,
+        B.PATH,
+        B.DESCRIPTION,
+        B.STATE,
+        B.CREATE_DATE,
+        B.UPDATE_TIME
+        FROM SYS_ROLE_PRIV A LEFT JOIN SYS_PRIV B ON B.PRIV_ID=A.PRIV_ID AND B.STATE='A'
+        WHERE A.STATE='A'
+        AND A.ROLE_ID IN
+        <foreach collection="roleIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="privType != null">
+            AND B.type=#{privType}
+        </if>
+        ORDER BY B.TYPE,B.PRIV_NAME
+
+    </select>
+
+    <select id="queryPrivsByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT DISTINCT
+        B.PRIV_ID,
+        B.PARENT_PRIV_ID,
+        B.PRIV_CODE,
+        B.PRIV_NAME,
+        B.TYPE,
+        B.URL,
+        B.PATH,
+        B.DESCRIPTION,
+        B.STATE,
+        B.CREATE_DATE,
+        B.UPDATE_TIME
+        FROM SYS_ROLE_PRIV A, SYS_PRIV B
+        WHERE A.USER_ID=#{userId} AND A.STATE='A' AND B.STATE='A'
+    </select>
+</mapper>
